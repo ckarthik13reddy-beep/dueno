@@ -1,0 +1,110 @@
+<template>
+  <style>
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; }
+    @font-face { font-family: "DM Sans"; src: url("assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; }
+    #root { position: absolute; inset: 0; background: #fcfaf4; font-family: "DM Sans", sans-serif; color: #12241c; overflow: hidden; }
+    #s7-top { position: absolute; left: 160px; top: 110px; }
+    #s7-badge { display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; background: #fbe8c9; color: #321f0f; padding: 10px 22px; font-size: 24px; font-weight: 600; }
+    #s7-badge svg { width: 24px; height: 24px; }
+    #s7-title { margin-top: 18px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 84px; letter-spacing: -0.035em; line-height: 1; }
+    .s7-w { display: inline-block; margin-right: 0.22em; }
+    .s7-card { position: absolute; top: 340px; width: 520px; height: 640px; background: #ffffff; border: 1px solid #e0ded5; border-radius: 30px; padding: 36px; box-shadow: 0 2px 4px rgba(18,36,28,0.05), 0 34px 64px -32px rgba(18,36,28,0.35); display: flex; flex-direction: column; }
+    #s7-a { left: 160px; } #s7-b { left: 700px; } #s7-c { left: 1240px; }
+    .s7-ic { width: 64px; height: 64px; border-radius: 18px; background: #fbe8c9; color: #8a5208; display: grid; place-items: center; }
+    .s7-ic svg { width: 34px; height: 34px; }
+    .s7-h { margin-top: 22px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 42px; letter-spacing: -0.02em; }
+    .s7-p { margin-top: 8px; font-size: 24px; line-height: 1.35; color: #5e6d66; }
+    .s7-demo { margin-top: auto; }
+    .s7-tones { display: flex; flex-wrap: wrap; gap: 10px; }
+    .s7-tone { border: 1px solid #e0ded5; border-radius: 999px; padding: 8px 18px; font-size: 20px; }
+    .s7-tone.on { background: #12241c; color: #fcfaf4; border-color: #12241c; }
+    .s7-chat { margin-top: 18px; background: #112c23; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; font-size: 19px; line-height: 1.4; }
+    .s7-q { background: #1e3c31; color: #eae8df; border-radius: 16px; padding: 12px 16px; }
+    .s7-a { margin-left: 28px; background: #f3aa40; color: #241708; border-radius: 16px; padding: 12px 16px; }
+    .s7-k { font-size: 20px; color: #5e6d66; }
+    .s7-big { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 56px; letter-spacing: -0.03em; }
+    .s7-acc { display: inline-flex; margin-top: 6px; border-radius: 999px; background: #e2f2ea; color: #1d6b49; font-size: 19px; font-weight: 600; padding: 5px 14px; }
+    .s7-portal { border-radius: 20px; overflow: hidden; border: 1px solid #e0ded5; }
+    .s7-ph { background: #112c23; color: #eae8df; padding: 20px 22px; }
+    .s7-ph .a { font-size: 17px; color: #b9c1ba; }
+    .s7-ph .b { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 48px; }
+    .s7-ph .c { font-size: 18px; color: #d5d9d2; }
+    .s7-pb { padding: 18px 22px; display: flex; flex-direction: column; gap: 12px; }
+    .s7-meth { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .s7-meth span { border: 1px solid #e0ded5; border-radius: 10px; padding: 8px 0; text-align: center; font-size: 17px; }
+    .s7-meth span.on { background: #12241c; color: #fcfaf4; border-color: #12241c; }
+    .s7-pay { display: flex; align-items: center; justify-content: center; gap: 10px; background: #154132; color: #fbf9f0; border-radius: 12px; padding: 14px; font-size: 21px; font-weight: 600; }
+    .s7-pay svg { width: 22px; height: 22px; }
+    #s7-flood { position: absolute; inset: 0; background: #112c23; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s7" data-width="1920" data-height="1080">
+    <div id="s7-top">
+      <span id="s7-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /></svg>Coming 2027</span>
+      <div id="s7-title"><span class="s7-w">Only</span><span class="s7-w">getting</span><span class="s7-w">smarter.</span></div>
+    </div>
+
+    <div id="s7-a" class="s7-card">
+      <span class="s7-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></svg></span>
+      <div class="s7-h">Agent Studio</div>
+      <div class="s7-p">Train your AI coworker on your voice.</div>
+      <div class="s7-demo">
+        <div class="s7-tones"><span class="s7-tone on">Warm</span><span class="s7-tone">Professional</span><span class="s7-tone">Firm</span><span class="s7-tone">Playful</span></div>
+        <div class="s7-chat">
+          <div id="s7-q" class="s7-q">Hey, can I pay next month instead?</div>
+          <div id="s7-ans" class="s7-a">Of course, no stress! Would splitting it into two payments make it easier?</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s7-b" class="s7-card">
+      <span class="s7-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="m19 9-5 5-4-4-3 3" /></svg></span>
+      <div class="s7-h">Cash forecast</div>
+      <div class="s7-p">Every invoice gets a predicted pay date.</div>
+      <div class="s7-demo">
+        <div class="s7-k">Expected in 30 days</div>
+        <div class="s7-big">$31,040</div>
+        <span class="s7-acc">Forecast accuracy 94.2%</span>
+        <svg width="448" height="150" viewBox="0 0 448 150" style="margin-top:14px;display:block">
+          <path id="s7-band" d="M8 132 L68 120 L128 104 L188 92 L248 80 L308 64 L368 52 L440 30 L440 64 L368 86 L308 100 L248 108 L188 118 L128 126 L68 134 L8 140 Z" fill="#f3aa40" fill-opacity="0.28" />
+          <polyline id="s7-line" points="8,136 68,126 128,114 188,104 248,94 308,82 368,68 440,48" fill="none" stroke="#154132" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="500" stroke-dashoffset="500" />
+        </svg>
+      </div>
+    </div>
+
+    <div id="s7-c" class="s7-card">
+      <span class="s7-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg></span>
+      <div class="s7-h">Payer portal</div>
+      <div class="s7-p">A branded, one-tap checkout.</div>
+      <div class="s7-demo">
+        <div class="s7-portal">
+          <div class="s7-ph"><div class="a">Your Studio · INV-2041</div><div class="b">$2,400</div><div class="c">Installment 2 of 2 · due Nov 5</div></div>
+          <div class="s7-pb">
+            <div class="s7-meth"><span>Card</span><span id="s7-ap">Apple Pay</span><span>UPI</span><span>SEPA</span><span>USDC</span><span>Pay in 3</span></div>
+            <div class="s7-pay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /></svg>Pay with Apple Pay</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="s7-flood" data-layout-allow-overflow></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#s7-flood", { yPercent: 100 }, 0);
+    tl.fromTo("#s7-badge", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.15);
+    gsap.utils.toArray("#s7-title .s7-w").forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, 0.55 + i * 0.12);
+    });
+    // Cards arrive on the VO: Agent Studio (2.06) · Cash forecast (4.53) · Payer portal (7.26)
+    [["#s7-a", 2.04], ["#s7-b", 4.51], ["#s7-c", 7.24]].forEach(([sel, t]) => {
+      tl.fromTo(sel, { opacity: 0, y: 90, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, t);
+    });
+    tl.fromTo("#s7-ans", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 2.9);
+    tl.fromTo("#s7-line", { strokeDashoffset: 500 }, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 4.9);
+    tl.fromTo("#s7-band", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 5.1);
+    tl.to("#s7-ap", { backgroundColor: "#12241c", color: "#fcfaf4", borderColor: "#12241c", duration: 0.2, ease: "power2.out" }, 7.85);
+    // Dark flood into the outro
+    tl.to(["#s7-top", "#s7-a", "#s7-b", "#s7-c"], { opacity: 0, filter: "blur(12px)", duration: 0.3, ease: "power2.in" }, 8.8);
+    tl.to("#s7-flood", { yPercent: 0, duration: 0.45, ease: "power2.inOut" }, 8.85);
+    window.__timelines["s7"] = tl;
+  </script>
+</template>

@@ -1,0 +1,47 @@
+<template>
+  <style>
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; }
+    @font-face { font-family: "DM Sans"; src: url("assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; }
+    #root { position: absolute; inset: 0; background: #112c23; font-family: "DM Sans", sans-serif; color: #eae8df; overflow: hidden; }
+    #s2-glow { position: absolute; left: 50%; top: 46%; width: 1300px; height: 900px; margin: -450px 0 0 -650px; background: radial-gradient(closest-side, rgba(243,170,64,0.22), rgba(243,170,64,0) 70%); }
+    #s2-stack { position: absolute; left: 0; right: 0; top: 250px; display: flex; flex-direction: column; align-items: center; }
+    #s2-pill { display: inline-flex; align-items: center; gap: 12px; border: 1px solid #2c4c40; background: #1e3c31; border-radius: 999px; padding: 12px 28px; font-size: 30px; font-weight: 500; color: #eae8df; }
+    #s2-pill svg { width: 28px; height: 28px; color: #f3aa40; }
+    #s2-word { margin-top: 30px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 250px; line-height: 1; letter-spacing: -0.05em; color: #eae8df; display: flex; align-items: baseline; }
+    .s2-ch { display: inline-block; }
+    #s2-dot { display: inline-block; color: #f3aa40; }
+    #s2-tag { margin-top: 44px; font-family: "Space Grotesk", sans-serif; font-weight: 500; font-size: 56px; letter-spacing: -0.02em; color: #eae8df; }
+    .s2-w { display: inline-block; margin-right: 0.24em; }
+    .s2-w.hl { color: #f3aa40; }
+    #s2-flood { position: absolute; inset: 0; background: #fcfaf4; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div id="s2-glow"></div>
+    <div id="s2-stack">
+      <div id="s2-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></svg>Your AI accounts-receivable coworker</div>
+      <div id="s2-word"><span class="s2-ch">d</span><span class="s2-ch">u</span><span class="s2-ch">e</span><span class="s2-ch">n</span><span class="s2-ch">o</span><span id="s2-dot">.</span></div>
+      <div id="s2-tag"><span class="s2-w">The</span><span class="s2-w">AI</span><span class="s2-w">coworker</span><span class="s2-w">that</span><span class="s2-w">gets</span><span class="s2-w">your</span><span class="s2-w">invoices</span><span class="s2-w hl">paid.</span></div>
+    </div>
+    <div id="s2-flood"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#s2-flood", { yPercent: 100 }, 0);
+    tl.fromTo("#s2-glow", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, 0);
+    tl.fromTo("#s2-pill", { opacity: 0, y: 16, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0.15);
+    // Wordmark letters on "Meet Dueno" (VO 0.3–1.05)
+    gsap.utils.toArray("#s2-word .s2-ch").forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0.3, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0.3 + i * 0.1);
+    });
+    // The amber dot drops in last
+    tl.fromTo("#s2-dot", { y: -260, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.6)" }, 0.82);
+    // Tagline words on "The AI coworker that gets your invoices paid." (VO 1.48–3.73)
+    gsap.utils.toArray("#s2-tag .s2-w").forEach((el, i) => {
+      tl.fromTo(el, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, 1.5 + i * 0.24);
+    });
+    // Colour flood up into cream
+    tl.to("#s2-stack", { opacity: 0, filter: "blur(10px)", y: -40, duration: 0.3, ease: "power3.in" }, 4.05);
+    tl.to("#s2-flood", { yPercent: 0, duration: 0.45, ease: "power2.inOut" }, 4.1);
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

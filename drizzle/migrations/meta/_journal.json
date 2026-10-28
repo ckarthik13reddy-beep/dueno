@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1790763670018,
+      "tag": "0000_dueno_core_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790763712980,
+      "tag": "0001_storage_policies_invoice_files",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791870894105,
+      "tag": "0002_cron_token_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792393912092,
+      "tag": "0003_launch_safety",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792491036445,
+      "tag": "0004_fix_invoice_guard_token",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+<template>
+  <style>
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; }
+    @font-face { font-family: "DM Sans"; src: url("assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; }
+    #root { position: absolute; inset: 0; background: #fcfaf4; font-family: "DM Sans", sans-serif; color: #12241c; overflow: hidden; }
+    #s4-cam { position: absolute; inset: 0; transform-origin: 58% 78%; }
+    #s4-win { position: absolute; left: 70px; top: 60px; width: 1780px; height: 960px; border-radius: 30px; overflow: hidden; background: #fcfaf4; border: 1px solid #e0ded5; display: grid; grid-template-columns: 290px 1fr 450px; box-shadow: 0 4px 8px rgba(18,36,28,0.06), 0 50px 90px -40px rgba(18,36,28,0.45); }
+    /* sidebar */
+    #s4-side { background: #112c23; color: #eae8df; padding: 34px 20px; display: flex; flex-direction: column; }
+    .s4-logo { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 44px; letter-spacing: -0.04em; padding: 0 12px; }
+    .s4-logo b { color: #f3aa40; }
+    .s4-nav { margin-top: 44px; display: flex; flex-direction: column; gap: 6px; }
+    .s4-nav div { display: flex; align-items: center; gap: 14px; padding: 13px 14px; border-radius: 12px; font-size: 22px; color: #c9cec6; }
+    .s4-nav div.on { background: #1e3c31; color: #f6f4ec; font-weight: 600; }
+    .s4-nav svg { width: 22px; height: 22px; }
+    .s4-live { margin-top: auto; background: #1e3c31; border-radius: 16px; padding: 18px; font-size: 18px; }
+    .s4-live p:first-child { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+    .s4-live p:last-child { margin-top: 6px; color: #b9c1ba; }
+    .s4-live svg { width: 20px; height: 20px; color: #f3aa40; }
+    /* thread */
+    #s4-thread { display: flex; flex-direction: column; min-width: 0; border-right: 1px solid #e0ded5; }
+    .s4-head { height: 108px; flex-shrink: 0; background: #ffffff; border-bottom: 1px solid #e0ded5; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; }
+    .s4-who { display: flex; align-items: center; gap: 16px; }
+    .s4-av { width: 58px; height: 58px; border-radius: 50%; background: #f0efe4; display: grid; place-items: center; font-weight: 600; font-size: 22px; }
+    .s4-nm { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 28px; }
+    .s4-chs { display: flex; align-items: center; gap: 8px; font-size: 18px; color: #5e6d66; margin-top: 2px; }
+    .s4-chs svg { width: 19px; height: 19px; }
+    .s4-btn { display: flex; align-items: center; gap: 10px; border: 1px solid #e0ded5; border-radius: 12px; padding: 12px 18px; font-size: 20px; font-weight: 600; }
+    .s4-btn svg { width: 22px; height: 22px; }
+    #s4-scroll { position: relative; flex: 1; background: #f3f2ec; overflow: hidden; }
+    #s4-msgs { position: absolute; left: 0; right: 0; top: 0; padding: 30px 34px; display: flex; flex-direction: column; gap: 24px; }
+    .s4-m { display: flex; flex-direction: column; gap: 7px; max-width: 76%; }
+    .s4-m.out { margin-left: auto; align-items: flex-end; }
+    .s4-lab { display: flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600; color: #5e6d66; }
+    .s4-lab svg { width: 17px; height: 17px; }
+    .s4-chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 11px; font-size: 16px; }
+    .s4-chip svg { width: 15px; height: 15px; }
+    .s4-b { border-radius: 22px; padding: 18px 24px; font-size: 23px; line-height: 1.45; }
+    .s4-m.out .s4-b { background: #154132; color: #fbf9f0; }
+    .s4-m.in .s4-b { background: #ffffff; border-left: 5px solid #3bb360; box-shadow: 0 1px 3px rgba(18,36,28,0.08); }
+    .s4-att { margin-top: 12px; display: flex; align-items: center; gap: 10px; border-radius: 10px; padding: 8px 12px; background: rgba(251,249,240,0.14); font-size: 19px; }
+    .s4-att svg { width: 19px; height: 19px; }
+    .s4-note { display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; background: #fbe8c9; color: #321f0f; padding: 6px 13px; font-size: 18px; font-weight: 500; }
+    .s4-note svg { width: 17px; height: 17px; }
+    #s4-paid { align-self: center; display: inline-flex; align-items: center; gap: 12px; background: #ffffff; border: 2px solid #2a8f62; color: #1d6b49; border-radius: 999px; padding: 14px 28px; font-size: 26px; font-weight: 600; box-shadow: 0 10px 30px -12px rgba(42,143,98,0.55); }
+    #s4-paid svg { width: 28px; height: 28px; }
+    #s4-tick { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #2a8f62; color: #ffffff; }
+    #s4-tick svg { width: 22px; height: 22px; }
+    /* context panel */
+    #s4-ctx { background: #ffffff; padding: 30px; display: flex; flex-direction: column; gap: 26px; }
+    .s4-inv { background: #112c23; color: #eae8df; border-radius: 20px; padding: 24px; }
+    .s4-inv .k { font-size: 18px; color: #b9c1ba; }
+    .s4-inv .v { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 54px; margin-top: 4px; }
+    .s4-st { display: inline-block; margin-top: 10px; border-radius: 999px; background: #f3aa40; color: #321f0f; font-size: 17px; font-weight: 600; padding: 5px 14px; }
+    .s4-k2 { font-size: 18px; font-weight: 600; color: #5e6d66; }
+    .s4-bar { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+    .s4-track { flex: 1; height: 12px; border-radius: 999px; background: #f0efe4; overflow: hidden; }
+    #s4-fill { height: 100%; width: 100%; border-radius: 999px; background: #2a8f62; transform-origin: left center; }
+    #s4-pct { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 30px; width: 70px; text-align: right; }
+    .s4-play { margin-top: 10px; border-left: 3px solid #e0ded5; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 20px; }
+    .s4-play .mu { color: #5e6d66; }
+  </style>
+  <div id="root" data-composition-id="s4" data-width="1920" data-height="1080">
+    <div id="s4-cam">
+      <div id="s4-win">
+        <aside id="s4-side">
+          <div class="s4-logo">dueno<b>.</b></div>
+          <div class="s4-nav">
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>Overview</div>
+            <div class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12" /><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /></svg>Inbox</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /></svg>Invoices</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5" /><path d="M15 8V2" /><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z" /><path d="M9 8V2" /></svg>Channels</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /></svg>Agent Studio</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="8" x="3" y="3" rx="2" /><path d="M7 11v4a2 2 0 0 0 2 2h4" /><rect width="8" height="8" x="13" y="13" rx="2" /></svg>Automations</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="m19 9-5 5-4-4-3 3" /></svg>Forecast</div>
+            <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>Payer portal</div>
+          </div>
+          <div class="s4-live">
+            <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /></svg>AI agent active</p>
+            <p>6 channels · 24/7 · 14 languages</p>
+          </div>
+        </aside>
+
+        <section id="s4-thread">
+          <div class="s4-head">
+            <div class="s4-who">
+              <span class="s4-av">PR</span>
+              <div>
+                <div class="s4-nm">Priya Raman</div>
+                <div class="s4-chs">
+                  <svg style="color:#2784d5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg>
+                  <svg style="color:#3bb360" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>
+                  <svg style="color:#e68c2c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg>
+                  one thread · 3 channels
+                </div>
+              </div>
+            </div>
+            <div class="s4-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></svg>Let AI nudge</div>
+          </div>
+          <div id="s4-scroll">
+            <div id="s4-msgs">
+              <div id="s4-m1" class="s4-m out">
+                <span class="s4-lab">Dueno AI <span class="s4-chip" style="background:#e1edf9;color:#1a62a3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg>Email</span></span>
+                <div class="s4-b">Hi Priya, a friendly note that invoice INV-2041 for the brand refresh ($4,800) was due yesterday.
+                  <div class="s4-att"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /></svg>INV-2041.pdf</div>
+                </div>
+              </div>
+              <div id="s4-m2" class="s4-m out">
+                <span class="s4-lab">Dueno AI <span class="s4-chip" style="background:#e3f4e8;color:#1f7a3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>WhatsApp</span></span>
+                <div class="s4-b">Hi Priya, following up on INV-2041 ($4,800). Would a split into two payments help?</div>
+                <span id="s4-n1" class="s4-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /></svg>Switched to WhatsApp — Priya replies 4× faster here</span>
+              </div>
+              <div id="s4-m3" class="s4-m in">
+                <span class="s4-lab">Priya Raman <span class="s4-chip" style="background:#e3f4e8;color:#1f7a3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>WhatsApp</span></span>
+                <div class="s4-b">Hey! Sorry, finance is slow this month. Can I do half now and half on the 5th?</div>
+              </div>
+              <div id="s4-m4" class="s4-m out">
+                <span class="s4-lab">Dueno AI <span class="s4-chip" style="background:#e3f4e8;color:#1f7a3d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>WhatsApp</span></span>
+                <div class="s4-b">Absolutely. I've sent a link for $2,400 today and scheduled the second half for Nov 5.</div>
+                <span id="s4-n2" class="s4-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></svg>Payment plan within your approved rules (max 2 installments)</span>
+              </div>
+              <div id="s4-paid"><span id="s4-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>$2,400 received via Stripe · verified</div>
+            </div>
+          </div>
+        </section>
+
+        <aside id="s4-ctx">
+          <div class="s4-inv">
+            <div class="k">INV-2041 · due Oct 18</div>
+            <div class="v">$4,800</div>
+            <span class="s4-st">promised</span>
+          </div>
+          <div>
+            <div class="s4-k2">AI payment likelihood</div>
+            <div class="s4-bar"><div class="s4-track"><div id="s4-fill"></div></div><span id="s4-pct">61%</span></div>
+          </div>
+          <div>
+            <div class="s4-k2">Sentiment</div>
+            <div style="margin-top:6px;font-size:22px">Positive</div>
+          </div>
+          <div>
+            <div class="s4-k2">Agent playbook</div>
+            <div class="s4-play">
+              <span>Day 0 · Email with PDF</span><span>Day 3 · WhatsApp nudge</span><span>Day 7 · SMS + pay link</span><span class="mu">Day 14 · AI voice call</span><span class="mu">Day 21 · Escalate to you</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Whip landing: the app arrives from the right, blurred, and sharpens
+    tl.fromTo("#s4-win", { x: 520, opacity: 0, filter: "blur(16px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 0);
+    tl.fromTo("#s4-fill", { scaleX: 0.61 }, { scaleX: 0.61, duration: 0.01 }, 0);
+    const pop = (sel, t, dir) =>
+      tl.fromTo(sel, { opacity: 0, y: 26, x: dir * 18, scale: 0.97 }, { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.42, ease: "expo.out" }, t);
+    pop("#s4-m1", 0.5, 1);
+    pop("#s4-m2", 1.3, 1);
+    tl.fromTo("#s4-n1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power2.out" }, 1.75);
+    // "When Priya asks to pay half now" (2.6)
+    tl.to("#s4-msgs", { y: -150, duration: 0.5, ease: "power2.inOut" }, 2.35);
+    pop("#s4-m3", 2.6, -1);
+    // "Dueno offers a split" (4.66)
+    tl.to("#s4-msgs", { y: -330, duration: 0.5, ease: "power2.inOut" }, 4.4);
+    pop("#s4-m4", 4.66, 1);
+    // "within your rules" (6.2)
+    tl.fromTo("#s4-n2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power2.out" }, 6.2);
+    // "twenty-four hundred dollars lands" (7.4): payment verified + camera punch-in
+    tl.to("#s4-msgs", { y: -380, duration: 0.45, ease: "power2.inOut" }, 7.05);
+    tl.fromTo("#s4-paid", { opacity: 0, scale: 0.8, filter: "blur(8px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "back.out(1.5)" }, 7.4);
+    tl.fromTo("#s4-cam", { scale: 1 }, { scale: 1.08, duration: 0.8, ease: "power2.inOut" }, 7.45);
+    const pct = { v: 61 };
+    tl.to("#s4-fill", { scaleX: 0.92, duration: 0.9, ease: "power3.out" }, 7.6);
+    tl.to(pct, { v: 92, duration: 0.9, ease: "power3.out", onUpdate: () => { document.getElementById("s4-pct").textContent = Math.round(pct.v) + "%"; } }, 7.6);
+    // "verified" (9.4): the tick lands
+    tl.fromTo("#s4-tick", { scale: 0.4, rotation: -30 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2)" }, 9.35);
+    // Blur swap out
+    tl.to("#s4-cam", { opacity: 0, filter: "blur(10px)", duration: 0.25, ease: "power2.in" }, 10.7);
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

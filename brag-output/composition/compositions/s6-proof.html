@@ -1,0 +1,65 @@
+<template>
+  <style>
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; }
+    @font-face { font-family: "DM Sans"; src: url("assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; }
+    #root { position: absolute; inset: 0; background: #112c23; font-family: "DM Sans", sans-serif; color: #eae8df; overflow: hidden; }
+    #s6-glow { position: absolute; left: -200px; top: -300px; width: 1400px; height: 1000px; background: radial-gradient(closest-side, rgba(243,170,64,0.14), rgba(243,170,64,0) 70%); }
+    .s6-card { position: absolute; top: 170px; width: 520px; height: 320px; background: #1e3c31; border: 1px solid #2c4c40; border-radius: 28px; padding: 40px 40px; }
+    #s6-c1 { left: 160px; } #s6-c2 { left: 700px; } #s6-c3 { left: 1240px; }
+    .s6-v { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 132px; line-height: 1; letter-spacing: -0.04em; color: #f3aa40; }
+    .s6-l { margin-top: 22px; font-size: 30px; line-height: 1.3; color: #d5d9d2; }
+    #s6-chart { position: absolute; left: 160px; top: 560px; width: 1600px; height: 430px; }
+    .s6-ct { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 28px; color: #eae8df; }
+    .s6-leg { position: absolute; right: 0; top: 0; display: flex; gap: 32px; font-size: 26px; color: #d5d9d2; }
+    .s6-leg span { display: inline-flex; align-items: center; gap: 10px; }
+    .s6-leg i { display: inline-block; width: 28px; height: 6px; border-radius: 3px; }
+    #s6-svg { position: absolute; left: 0; top: 60px; }
+    #s6-grow { position: absolute; inset: 0; background: #fcfaf4; z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s6" data-width="1920" data-height="1080">
+    <div id="s6-glow" data-layout-allow-overflow></div>
+    <div id="s6-c1" class="s6-card"><div class="s6-v"><span id="s6-n1">3.2</span>×</div><div class="s6-l">faster payment vs.<br />manual chasing</div></div>
+    <div id="s6-c2" class="s6-card"><div class="s6-v"><span id="s6-n2">94</span>%</div><div class="s6-l">of payer replies<br />handled by AI</div></div>
+    <div id="s6-c3" class="s6-card"><div class="s6-v"><span id="s6-n3">41</span>h</div><div class="s6-l">saved per month,<br />per business</div></div>
+    <div id="s6-chart">
+      <div class="s6-ct">Collected per month ($k)</div>
+      <div class="s6-leg"><span><i style="background:#8c9b94"></i>Before Dueno</span><span><i style="background:#f3aa40"></i>With Dueno</span></div>
+      <svg id="s6-svg" width="1600" height="370" viewBox="0 0 1600 370">
+        <g stroke="#2c4c40" stroke-width="1.5">
+          <line x1="60" x2="1580" y1="20" y2="20" /><line x1="60" x2="1580" y1="110" y2="110" /><line x1="60" x2="1580" y1="200" y2="200" /><line x1="60" x2="1580" y1="290" y2="290" />
+        </g>
+        <g fill="#b9c1ba" font-family="DM Sans, sans-serif" font-size="22">
+          <text x="0" y="27">50</text><text x="0" y="117">35</text><text x="0" y="207">20</text><text x="12" y="297">5</text>
+          <text x="80" y="345">May</text><text x="370" y="345">Jun</text><text x="666" y="345">Jul</text><text x="962" y="345">Aug</text><text x="1258" y="345">Sep</text><text x="1540" y="345">Oct</text>
+        </g>
+        <path id="s6-area" d="M100 212 L396 176 L692 146 L988 116 L1284 74 L1560 32 L1560 320 L100 320 Z" fill="#f3aa40" fill-opacity="0.16" />
+        <polyline id="s6-before" points="100,212 396,194 692,206 988,188 1284,200 1560,182" fill="none" stroke="#8c9b94" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1600" stroke-dashoffset="1600" />
+        <polyline id="s6-dueno" points="100,212 396,176 692,146 988,116 1284,74 1560,32" fill="none" stroke="#f3aa40" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1700" stroke-dashoffset="1700" />
+        <circle id="s6-end" cx="1560" cy="32" r="11" fill="#f3aa40" />
+      </svg>
+    </div>
+    <div id="s6-grow"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#s6-grow", { clipPath: "inset(170px 160px 590px 1240px round 28px)", opacity: 0 }, 0);
+    // Stats land on the VO: 3.2× (0.25) · 94% (2.69) · 41h (6.2)
+    const stats = [["#s6-c1", "#s6-n1", 3.2, 1, 0.25], ["#s6-c2", "#s6-n2", 94, 0, 2.69], ["#s6-c3", "#s6-n3", 41, 0, 6.2]];
+    stats.forEach(([card, num, to, dec, t]) => {
+      tl.fromTo(card, { opacity: 0, y: 50, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, t);
+      const o = { v: 0 };
+      tl.fromTo(o, { v: 0 }, { v: to, duration: 0.9, ease: "power3.out", onUpdate: () => { document.querySelector(num).textContent = o.v.toFixed(dec); } }, t);
+    });
+    // Before vs. with Dueno: lines draw across the scene
+    tl.fromTo("#s6-chart", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.5);
+    tl.fromTo("#s6-before", { strokeDashoffset: 1600 }, { strokeDashoffset: 0, duration: 2.2, ease: "power1.inOut" }, 0.7);
+    tl.fromTo("#s6-dueno", { strokeDashoffset: 1700 }, { strokeDashoffset: 0, duration: 4.2, ease: "power2.inOut" }, 1.2);
+    tl.fromTo("#s6-area", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, 4.4);
+    tl.fromTo("#s6-end", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(2)" }, 5.35);
+    // Object becomes the world: the third card opens into the cream roadmap scene
+    tl.to(["#s6-c1", "#s6-c2", "#s6-chart"], { opacity: 0, filter: "blur(14px)", duration: 0.3, ease: "power2.in" }, 8.3);
+    tl.set("#s6-grow", { opacity: 1 }, 8.32);
+    tl.to("#s6-grow", { clipPath: "inset(0px 0px 0px 0px round 0px)", duration: 0.6, ease: "power2.inOut" }, 8.35);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

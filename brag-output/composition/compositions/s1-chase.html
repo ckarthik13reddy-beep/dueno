@@ -1,0 +1,70 @@
+<template>
+  <style>
+    @font-face { font-family: "Space Grotesk"; src: url("assets/fonts/SpaceGrotesk.woff2") format("woff2"); font-weight: 300 700; }
+    @font-face { font-family: "DM Sans"; src: url("assets/fonts/DMSans.woff2") format("woff2"); font-weight: 100 1000; }
+    #root { position: absolute; inset: 0; background: #fcfaf4; font-family: "DM Sans", sans-serif; color: #12241c; overflow: hidden; }
+    #s1-lines { position: absolute; left: 140px; top: 330px; width: 900px; }
+    .s1-line { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 80px; line-height: 1.08; letter-spacing: -0.03em; color: #12241c; }
+    .s1-line.soft { color: #5e6d66; }
+    #s1-l3 { margin-top: 26px; }
+    .s1-mark { position: relative; display: inline-block; }
+    .s1-mark-bg { position: absolute; left: -8px; right: -8px; bottom: 6px; height: 34px; background: #f3aa40; border-radius: 6px; z-index: 0; transform-origin: left center; }
+    .s1-mark-tx { position: relative; z-index: 1; }
+    #s1-rows { position: absolute; left: 1060px; top: 290px; width: 720px; }
+    .s1-row { display: flex; align-items: center; gap: 22px; background: #ffffff; border: 1px solid #e0ded5; border-radius: 24px; padding: 26px 30px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(18,36,28,0.06), 0 24px 48px -22px rgba(18,36,28,0.35); }
+    .s1-av { width: 64px; height: 64px; border-radius: 50%; background: #f0efe4; display: grid; place-items: center; font-weight: 600; font-size: 24px; color: #12241c; flex-shrink: 0; }
+    .s1-who { flex: 1; min-width: 0; }
+    .s1-name { font-weight: 600; font-size: 27px; }
+    .s1-sub { font-size: 23px; color: #5e6d66; margin-top: 2px; }
+    .s1-pill { border-radius: 999px; padding: 7px 16px; font-size: 24px; font-weight: 600; }
+    .s1-overdue { background: #f8e3e2; color: #b4232a; }
+    .s1-disputed { background: #f9e2c9; color: #301d0d; }
+    .s1-due { background: #f0efe4; color: #1e3a31; }
+    .s1-amt { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 30px; width: 140px; text-align: right; }
+    #s1-iris { position: absolute; inset: 0; background: #112c23; clip-path: circle(0% at 50% 50%); z-index: 5; }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <div id="s1-lines">
+      <div id="s1-l1" class="s1-line soft">You did the work.</div>
+      <div id="s1-l2" class="s1-line soft">You sent the invoice.</div>
+      <div id="s1-l3" class="s1-line">Now you're <span class="s1-mark"><span id="s1-markbg" class="s1-mark-bg"></span><span class="s1-mark-tx">chasing</span></span> it.</div>
+    </div>
+    <div id="s1-rows">
+      <div id="s1-r1" class="s1-row">
+        <span class="s1-av">DA</span>
+        <div class="s1-who"><div class="s1-name">Diego Alvarez</div><div class="s1-sub">Alvarez &amp; Hijos · INV-2029</div></div>
+        <span class="s1-pill s1-overdue">Overdue</span><span class="s1-amt">$3,150</span>
+      </div>
+      <div id="s1-r2" class="s1-row">
+        <span class="s1-av">MB</span>
+        <div class="s1-who"><div class="s1-name">Marcus Bell</div><div class="s1-sub">Northwind Logistics · INV-2038</div></div>
+        <span class="s1-pill s1-disputed">Disputed</span><span class="s1-amt">$12,650</span>
+      </div>
+      <div id="s1-r3" class="s1-row">
+        <span class="s1-av">AT</span>
+        <div class="s1-who"><div class="s1-name">Aiko Tanaka</div><div class="s1-sub">Sora Coffee Co. · INV-2045</div></div>
+        <span class="s1-pill s1-due">Due</span><span class="s1-amt">$1,320</span>
+      </div>
+    </div>
+    <div id="s1-iris"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // Invoice rows drop onto the pile, slight tilt that settles
+    ["#s1-r1", "#s1-r2", "#s1-r3"].forEach((sel, i) => {
+      tl.fromTo(sel, { y: -70, rotation: i % 2 ? 2.5 : -2.5, opacity: 0, filter: "blur(10px)" },
+        { y: 0, rotation: 0, opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" }, 0.3 + i * 0.4);
+    });
+    // Lines land on the VO: "You did the work." 0.4 · "You sent the invoice." 1.26 · "Now you're chasing it." 2.4
+    tl.fromTo("#s1-l1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.38);
+    tl.fromTo("#s1-l2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 1.24);
+    tl.fromTo("#s1-l3", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 2.38);
+    // Amber marker sweeps under "chasing" as it is spoken
+    tl.fromTo("#s1-markbg", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 3.15);
+    // Rows slip sideways: the chase
+    tl.to("#s1-rows", { x: 26, duration: 0.5, ease: "power2.inOut" }, 3.2);
+    // Iris: the dark panel opens from the centre and becomes the next world
+    tl.fromTo("#s1-iris", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.6, ease: "power3.in" }, 4.35);
+    window.__timelines["s1"] = tl;
+  </script>
+</template>
